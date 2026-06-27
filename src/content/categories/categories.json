@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "afvalbeheer",
+    "name": "Afvalbeheer",
+    "parent": ""
+  },
+  {
+    "slug": "blog",
+    "name": "Blog",
+    "parent": ""
+  },
+  {
+    "slug": "uncategorized",
+    "name": "Uncategorized",
+    "parent": ""
+  },
+  {
+    "slug": "",
+    "name": "",
+    "parent": ""
+  }
+]
