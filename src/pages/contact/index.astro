@@ -1,0 +1,15 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Contact from '../../components/Contact.astro';
+---
+<ArticleLayout title="Contact">
+  <Header slot="header" />
+  <p>
+    Heb je vragen over onze website? Of heb je vragen over bepaalde producten die we op deze website aanbevelen?
+    Neem dan gerust contact met ons op. Dit kun je het beste doen door onderstaand contactformulier in te vullen.
+  </p>
+  <Contact />
+  <Footer slot="footer" />
+</ArticleLayout>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { allSiteSlugs } from '../../data/pages';
+
+const staticPages = [
+  { label: 'Home', href: '/' },
+  { label: 'Over ons', href: '/over-ons/' },
+  { label: 'Contact', href: '/contact/' },
+  { label: 'Blogs', href: '/blogs/' },
+];
+
+const links = [
+  ...staticPages,
+  ...allSiteSlugs
+    .filter((slug) => !['over-ons', 'contact', 'blogs', 'sitemap'].includes(slug))
+    .map((slug) => ({
+      label: slug.replace(/-/g, ' '),
+      href: `/${slug}/`,
+    })),
+].sort((a, b) => a.label.localeCompare(b.label, 'nl'));
+---
+<BaseLayout title="Sitemap">
+  <Header slot="header" />
+  <section class="section">
+    <div class="container reveal">
+      <div class="section-header">
+        <h1>Sitemap</h1>
+        <p>Overzicht van alle pagina&apos;s op InterieurWonenPlaza.nl.</p>
+      </div>
+      <ul class="sitemap-list">
+        {links.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+  }
+
+  .sitemap-list {
+    columns: 2;
+    gap: 2rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sitemap-list li {
+    margin-bottom: 0.625rem;
+    break-inside: avoid;
+  }
+
+  .sitemap-list a {
+    color: var(--color-heading);
+    transition: color var(--transition);
+  }
+
+  .sitemap-list a:hover {
+    color: var(--color-accent-dark);
+  }
+
+  @media (max-width: 599px) {
+    .sitemap-list {
+      columns: 1;
+    }
+  }
+</style>
