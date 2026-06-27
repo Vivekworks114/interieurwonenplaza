@@ -1,0 +1,23 @@
+---
+import { aboutSection } from '../data/homepage';
+---
+<section class="about section section--white reveal">
+  <div class="container">
+    <div class="about__content">
+      <h2>{aboutSection.title}</h2>
+      {aboutSection.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__content {
+    max-width: 48rem;
+  }
+
+  .about__content p:last-child {
+    margin-bottom: 0;
+  }
+</style>

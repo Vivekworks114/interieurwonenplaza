@@ -1,0 +1,25 @@
+---
+import { popularSection } from '../data/homepage';
+---
+<section class="popular section section--white reveal">
+  <div class="container">
+    <div class="section-header">
+      <h2>{popularSection.title}</h2>
+    </div>
+    <div class="popular__content">
+      {popularSection.paragraphs.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .popular__content {
+    max-width: 48rem;
+  }
+
+  .popular__content p:last-child {
+    margin-bottom: 0;
+  }
+</style>

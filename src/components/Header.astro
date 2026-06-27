@@ -1,0 +1,278 @@
+---
+import { mainNavigation } from '../data/navigation';
+import Navigation from './Navigation.astro';
+
+const currentPath = Astro.url.pathname;
+
+const socialIcons = [
+  { label: 'Facebook', icon: 'facebook' },
+  { label: 'Instagram', icon: 'instagram' },
+  { label: 'Twitter', icon: 'twitter' },
+  { label: 'Youtube', icon: 'youtube' },
+] as const;
+---
+<header class="header">
+  <div class="header__inner container">
+    <a href="/" class="header__logo" aria-label="InterieurWonenPlaza.nl - Home">
+      <img src="/images/2023/01/Frame-582.svg" alt="InterieurWonenPlaza.nl" width="220" height="28" />
+    </a>
+
+    <div class="header__nav">
+      <Navigation items={mainNavigation} currentPath={currentPath} />
+    </div>
+
+    <div class="header__social" aria-label="Social media">
+      {socialIcons.map(({ label, icon }) => (
+        <a class="header__social-link" href="#" target="_blank" rel="noopener noreferrer" aria-label={label}>
+          {icon === 'facebook' && (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          )}
+          {icon === 'instagram' && (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          )}
+          {icon === 'twitter' && (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          )}
+          {icon === 'youtube' && (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          )}
+        </a>
+      ))}
+    </div>
+
+    <button
+      class="nav-toggle"
+      type="button"
+      id="nav-toggle"
+      aria-label="Menu openen"
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+    </button>
+  </div>
+
+  <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+</header>
+
+<script is:inline>
+  (function () {
+    var MOBILE = 1024;
+
+    function isMobile() {
+      return window.innerWidth <= MOBILE;
+    }
+
+    function closeNav() {
+      var nav = document.getElementById('site-nav');
+      var toggle = document.getElementById('nav-toggle');
+      var backdrop = document.getElementById('nav-backdrop');
+      if (nav) nav.classList.remove('site-nav--open');
+      if (nav && isMobile()) nav.setAttribute('aria-hidden', 'true');
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Menu openen');
+      }
+      if (backdrop) {
+        backdrop.classList.remove('nav-backdrop--visible');
+        backdrop.setAttribute('aria-hidden', 'true');
+      }
+      document.body.classList.remove('nav-open');
+    }
+
+    function openNav() {
+      var nav = document.getElementById('site-nav');
+      var toggle = document.getElementById('nav-toggle');
+      var backdrop = document.getElementById('nav-backdrop');
+      if (nav) {
+        nav.classList.add('site-nav--open');
+        nav.setAttribute('aria-hidden', 'false');
+      }
+      if (toggle) {
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', 'Menu sluiten');
+      }
+      if (backdrop) {
+        backdrop.classList.add('nav-backdrop--visible');
+        backdrop.setAttribute('aria-hidden', 'false');
+      }
+      document.body.classList.add('nav-open');
+    }
+
+    function init() {
+      var nav = document.getElementById('site-nav');
+      var toggle = document.getElementById('nav-toggle');
+      var backdrop = document.getElementById('nav-backdrop');
+      if (!nav || !toggle) return;
+
+      if (isMobile()) nav.setAttribute('aria-hidden', 'true');
+
+      toggle.addEventListener('click', function () {
+        if (toggle.getAttribute('aria-expanded') === 'true') closeNav();
+        else openNav();
+      });
+
+      if (backdrop) backdrop.addEventListener('click', closeNav);
+
+      nav.querySelectorAll('.nav__expand').forEach(function (button) {
+        button.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!isMobile()) return;
+          var item = button.closest('.nav-item--has-children');
+          var expanded = button.getAttribute('aria-expanded') === 'true';
+          nav.querySelectorAll('.nav-item--has-children').forEach(function (other) {
+            if (other !== item) {
+              other.classList.remove('nav-item--expanded');
+              var btn = other.querySelector('.nav__expand');
+              if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+          if (item) item.classList.toggle('nav-item--expanded', !expanded);
+          button.setAttribute('aria-expanded', String(!expanded));
+        });
+      });
+
+      nav.querySelectorAll('a.nav-link, a.nav__sublink').forEach(function (link) {
+        link.addEventListener('click', function () {
+          if (isMobile()) closeNav();
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeNav();
+      });
+
+      window.addEventListener('resize', function () {
+        if (!isMobile()) {
+          closeNav();
+          nav.querySelectorAll('.nav-item--has-children').forEach(function (item) {
+            item.classList.remove('nav-item--expanded');
+            var btn = item.querySelector('.nav__expand');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: 0.875rem;
+    min-height: 57px;
+  }
+
+  .header__logo img {
+    width: clamp(160px, 22vw, 220px);
+    height: auto;
+    transition: opacity var(--transition);
+  }
+
+  .header__logo:hover img {
+    opacity: 0.85;
+  }
+
+  .header__nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .header__social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .header__social-link {
+    color: var(--color-primary);
+    transition: color var(--transition);
+  }
+
+  .header__social-link:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    flex-shrink: 0;
+  }
+
+  .nav-toggle__bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--color-primary);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .nav-toggle[aria-expanded='true'] .nav-toggle__bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 1024px) {
+    .header__inner {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .header__nav {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .header__nav :global(#site-nav) {
+      pointer-events: auto;
+    }
+
+    .header__social {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+  }
+</style>

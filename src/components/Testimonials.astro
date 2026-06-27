@@ -1,0 +1,107 @@
+---
+import { recentSection, recentCards } from '../data/homepage';
+---
+<section class="recent section section--soft reveal" id="blok2">
+  <div class="container">
+    <div class="section-header">
+      <h2>{recentSection.title}</h2>
+      <p>{recentSection.description}</p>
+    </div>
+    <div class="card-grid">
+      {recentCards.map((card) => (
+        <article class="recent-card">
+          <a href={card.href} class="recent-card__image-link">
+            <img src={card.image} alt={card.alt} width="800" height="535" loading="lazy" />
+          </a>
+          <div class="recent-card__body">
+            <p class="recent-card__category">{card.category}</p>
+            <h3>
+              <a href={card.href}>{card.title}</a>
+            </h3>
+            {(card.author || card.date) && (
+              <p class="recent-card__meta">
+                <img src="/images/2023/01/Ellipse-141.png" alt="" width="24" height="24" loading="lazy" />
+                <span>{card.author} | {card.date}</span>
+              </p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .recent-card {
+    background: var(--color-bg-card);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+
+  .recent-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  .recent-card__image-link {
+    display: block;
+    overflow: hidden;
+  }
+
+  .recent-card__image-link img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .recent-card:hover .recent-card__image-link img {
+    transform: scale(1.04);
+  }
+
+  .recent-card__body {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+
+  .recent-card__category {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-teal);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+
+  .recent-card h3 {
+    font-size: 1.0625rem;
+    margin: 0 0 0.75rem;
+    line-height: 1.4;
+  }
+
+  .recent-card h3 a {
+    color: var(--color-heading);
+    transition: color var(--transition);
+  }
+
+  .recent-card h3 a:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .recent-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .recent-card__meta img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>

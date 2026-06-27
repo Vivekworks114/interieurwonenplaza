@@ -1,0 +1,103 @@
+---
+import { heroContent } from '../data/homepage';
+const lines = heroContent.description.split('\n');
+---
+<section
+  class="hero reveal"
+  style={`background-image: url('${heroContent.backgroundImage}')`}
+>
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__shape" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <path d="M0,6V0h1000v100L0,6z" fill="currentColor" />
+    </svg>
+  </div>
+  <div class="container hero__inner">
+    <div class="hero__grid">
+      <div class="hero__content">
+        <h1>{heroContent.title}</h1>
+        {lines.map((line) => (
+          <p>{line}</p>
+        ))}
+        <a href={heroContent.ctaHref} class="btn btn--primary">{heroContent.ctaLabel}</a>
+      </div>
+      <div class="hero__spacer" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background-color: var(--color-primary);
+    background-size: cover;
+    background-position: center left;
+    background-repeat: no-repeat;
+    padding: clamp(4rem, 10vw, 7.75rem) 0 clamp(6rem, 12vw, 11.875rem);
+    overflow: hidden;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--color-primary);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .hero__shape {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 72px;
+    color: var(--color-bg);
+    line-height: 0;
+    transform: scaleX(-1);
+  }
+
+  .hero__shape svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .hero__content h1 {
+    color: var(--color-secondary);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .hero__content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero__content .btn {
+    margin-top: 1.25rem;
+  }
+
+  @media (max-width: 767px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__spacer {
+      display: none;
+    }
+  }
+</style>
