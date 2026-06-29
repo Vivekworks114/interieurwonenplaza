@@ -171,6 +171,11 @@ p {
   box-shadow: var(--shadow-sm);
 }
 
+.btn--square {
+  border-radius: 0;
+  padding: 12px 32px;
+}
+
 .btn--outline {
   background: transparent;
   color: var(--color-primary);

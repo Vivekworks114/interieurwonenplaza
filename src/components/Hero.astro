@@ -2,16 +2,20 @@
 import { heroContent } from '../data/homepage';
 const lines = heroContent.description.split('\n');
 ---
-<section
-  class="hero reveal"
-  style={`background-image: url('${heroContent.backgroundImage}')`}
->
-  <div class="hero__overlay" aria-hidden="true"></div>
-  <div class="hero__shape" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-      <path d="M0,6V0h1000v100L0,6z" fill="currentColor" />
-    </svg>
+<section class="hero reveal">
+  <div class="hero__media" aria-hidden="true">
+    <img
+      src={heroContent.backgroundImage}
+      alt=""
+      class="hero__media-image"
+      width="1440"
+      height="641"
+      loading="eager"
+      decoding="async"
+    />
   </div>
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__shape" aria-hidden="true"></div>
   <div class="container hero__inner">
     <div class="hero__grid">
       <div class="hero__content">
@@ -19,9 +23,9 @@ const lines = heroContent.description.split('\n');
         {lines.map((line) => (
           <p>{line}</p>
         ))}
-        <a href={heroContent.ctaHref} class="btn btn--primary">{heroContent.ctaLabel}</a>
+        <a href={heroContent.ctaHref} class="btn btn--primary btn--square">{heroContent.ctaLabel}</a>
       </div>
-      <div class="hero__spacer" aria-hidden="true"></div>
+      <div class="hero__visual" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -30,18 +34,37 @@ const lines = heroContent.description.split('\n');
   .hero {
     position: relative;
     background-color: var(--color-primary);
-    background-size: cover;
-    background-position: center left;
-    background-repeat: no-repeat;
-    padding: clamp(4rem, 10vw, 7.75rem) 0 clamp(6rem, 12vw, 11.875rem);
+    padding: 124px 0 190px;
+    margin-top: -57px;
+    padding-top: calc(124px + 57px);
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     overflow: hidden;
+  }
+
+  .hero__media-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Elementor "center left" = vertically centered, horizontally left */
+    object-position: left center;
   }
 
   .hero__overlay {
     position: absolute;
     inset: 0;
-    background: var(--color-primary);
-    opacity: 0.8;
+    z-index: 1;
+    background: linear-gradient(
+      to right,
+      rgba(33, 33, 33, 0.8) 0%,
+      rgba(33, 33, 33, 0.8) 42%,
+      rgba(33, 33, 33, 0.45) 58%,
+      rgba(33, 33, 33, 0) 72%
+    );
     pointer-events: none;
   }
 
@@ -49,16 +72,12 @@ const lines = heroContent.description.split('\n');
     position: absolute;
     bottom: -1px;
     left: 0;
-    right: 0;
-    height: 72px;
-    color: var(--color-bg);
-    line-height: 0;
-    transform: scaleX(-1);
-  }
-
-  .hero__shape svg {
     width: 100%;
-    height: 100%;
+    height: 72px;
+    background: #ffffff;
+    clip-path: polygon(-1px 0, calc(100% + 1px) 6px, calc(100% + 1px) 100%, -1px 100%);
+    pointer-events: none;
+    z-index: 3;
   }
 
   .hero__inner {
@@ -68,9 +87,17 @@ const lines = heroContent.description.split('\n');
 
   .hero__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
+  }
+
+  .hero__content {
+    max-width: 34rem;
+  }
+
+  .hero__visual {
+    min-height: 1px;
   }
 
   .hero__content h1 {
@@ -81,7 +108,7 @@ const lines = heroContent.description.split('\n');
   }
 
   .hero__content p {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--color-text);
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 0.5rem;
@@ -91,13 +118,42 @@ const lines = heroContent.description.split('\n');
     margin-top: 1.25rem;
   }
 
+  @media (max-width: 1024px) {
+    .hero {
+      padding: 72px 0 120px;
+      padding-top: calc(72px + 57px);
+    }
+
+    .hero__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+    }
+  }
+
   @media (max-width: 767px) {
+    .hero {
+      padding: 36px 0 120px;
+      padding-top: calc(36px + 57px);
+    }
+
     .hero__grid {
       grid-template-columns: 1fr;
     }
 
-    .hero__spacer {
+    .hero__visual {
       display: none;
+    }
+
+    .hero__media-image {
+      object-position: 65% center;
+    }
+
+    .hero__overlay {
+      background: linear-gradient(
+        to bottom,
+        rgba(33, 33, 33, 0.82) 0%,
+        rgba(33, 33, 33, 0.72) 55%,
+        rgba(33, 33, 33, 0.35) 100%
+      );
     }
   }
 </style>

@@ -11,6 +11,10 @@
     "preview": "astro preview",
     "astro": "astro",
     "migrate": "python3 scripts/migrate-wordpress.py",
+    "migrate:html": "python3 scripts/migrate-live-html.py",
+    "migrate:html:force": "python3 scripts/migrate-live-html.py --force",
+    "migrate:html:products": "python3 scripts/migrate-live-html.py --products",
+    "fix:html": "python3 scripts/fix-page-html.py",
     "verify:links": "python3 scripts/verify-links.py"
   },
   "dependencies": {

@@ -148,6 +148,7 @@ const socialIcons = [
       window.addEventListener('resize', function () {
         if (!isMobile()) {
           closeNav();
+          nav.removeAttribute('aria-hidden');
           nav.querySelectorAll('.nav-item--has-children').forEach(function (item) {
             item.classList.remove('nav-item--expanded');
             var btn = item.querySelector('.nav__expand');
@@ -170,8 +171,8 @@ const socialIcons = [
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: var(--color-bg);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--color-primary);
+    border-bottom: none;
   }
 
   .header__inner {
@@ -184,7 +185,7 @@ const socialIcons = [
   }
 
   .header__logo img {
-    width: clamp(160px, 22vw, 220px);
+    width: clamp(160px, 22vw, 275px);
     height: auto;
     transition: opacity var(--transition);
   }
@@ -205,12 +206,12 @@ const socialIcons = [
   }
 
   .header__social-link {
-    color: var(--color-primary);
+    color: var(--color-teal);
     transition: color var(--transition);
   }
 
   .header__social-link:hover {
-    color: var(--color-accent-dark);
+    color: var(--color-accent);
   }
 
   .nav-toggle {
@@ -225,7 +226,7 @@ const socialIcons = [
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 1001;
+    z-index: 1002;
     flex-shrink: 0;
   }
 
@@ -233,7 +234,7 @@ const socialIcons = [
     display: block;
     width: 22px;
     height: 2px;
-    background: var(--color-primary);
+    background: #ffffff;
     transition: transform 0.3s ease, opacity 0.3s ease;
     transform-origin: center;
   }
@@ -258,13 +259,7 @@ const socialIcons = [
     }
 
     .header__nav {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .header__nav :global(#site-nav) {
-      pointer-events: auto;
+      position: static;
     }
 
     .header__social {
