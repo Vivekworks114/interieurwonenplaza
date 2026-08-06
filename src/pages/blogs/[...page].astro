@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from 'astro'
+import BlogArchive from '../../components/BlogArchive.astro'
+import { BLOG_PAGE_SIZE, getBlogPosts } from '../../lib/blog'
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getBlogPosts()
+  return paginate(posts, { pageSize: BLOG_PAGE_SIZE })
+}) satisfies GetStaticPaths
+
+const { page } = Astro.props
+---
+<BlogArchive
+  page={page}
+  title="Blogs"
+  description="Lees onze nieuwste artikelen over interieur, wonen en woonproducten."
+  basePath="/blogs"
+/>

@@ -1,0 +1,134 @@
+---
+interface Props {
+  currentPage: number
+  lastPage: number
+  url: {
+    prev: string | undefined
+    next: string | undefined
+    current: string
+  }
+  /** Base path without trailing slash, e.g. `/blogs` */
+  basePath: string
+}
+
+const { currentPage, lastPage, url, basePath } = Astro.props
+
+function pageHref(n: number): string {
+  if (n <= 1) return `${basePath}/`
+  return `${basePath}/${n}/`
+}
+
+const pages = Array.from({ length: lastPage }, (_, i) => i + 1)
+const windowSize = 5
+const half = Math.floor(windowSize / 2)
+let start = Math.max(1, currentPage - half)
+let end = Math.min(lastPage, start + windowSize - 1)
+start = Math.max(1, end - windowSize + 1)
+const visible = pages.filter((n) => n >= start && n <= end)
+---
+{lastPage > 1 && (
+  <nav class="blog-pagination" aria-label="Blog paginering">
+    {url.prev ? (
+      <a class="blog-pagination__nav" href={url.prev} rel="prev">Vorige</a>
+    ) : (
+      <span class="blog-pagination__nav is-disabled" aria-disabled="true">Vorige</span>
+    )}
+
+    <ol class="blog-pagination__pages">
+      {start > 1 && (
+        <li>
+          <a href={pageHref(1)} class="blog-pagination__page" aria-label="Pagina 1">1</a>
+        </li>
+      )}
+      {start > 2 && (
+        <li><span class="blog-pagination__ellipsis" aria-hidden="true">…</span></li>
+      )}
+      {visible.map((n) => (
+        <li>
+          {n === currentPage ? (
+            <span class="blog-pagination__page is-current" aria-current="page">{n}</span>
+          ) : (
+            <a href={pageHref(n)} class="blog-pagination__page" aria-label={`Pagina ${n}`}>{n}</a>
+          )}
+        </li>
+      ))}
+      {end < lastPage - 1 && (
+        <li><span class="blog-pagination__ellipsis" aria-hidden="true">…</span></li>
+      )}
+      {end < lastPage && (
+        <li>
+          <a href={pageHref(lastPage)} class="blog-pagination__page" aria-label={`Pagina ${lastPage}`}>
+            {lastPage}
+          </a>
+        </li>
+      )}
+    </ol>
+
+    {url.next ? (
+      <a class="blog-pagination__nav" href={url.next} rel="next">Volgende</a>
+    ) : (
+      <span class="blog-pagination__nav is-disabled" aria-disabled="true">Volgende</span>
+    )}
+  </nav>
+)}
+
+<style>
+  .blog-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem 1rem;
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
+
+  .blog-pagination__pages {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .blog-pagination__page,
+  .blog-pagination__nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-heading);
+    border: 1px solid var(--color-border);
+    border-radius: var(--card-radius-sm);
+    background: var(--color-bg-card);
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+  }
+
+  .blog-pagination__page:hover,
+  .blog-pagination__nav:hover {
+    border-color: var(--color-accent-dark);
+    color: var(--color-accent-dark);
+  }
+
+  .blog-pagination__page.is-current {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-primary);
+  }
+
+  .blog-pagination__nav.is-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .blog-pagination__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.25rem;
+    color: var(--color-muted);
+  }
+</style>

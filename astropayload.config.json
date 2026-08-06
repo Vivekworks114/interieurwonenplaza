@@ -3,5 +3,11 @@
   "tenantSlug": "interieurwonenplaza",
   "modules": ["blog"],
   "blogContentPath": "src/content/blog",
-  "blogFileExtension": "mdx"
+  "blogFileExtension": "mdx",
+  "blogImageFields": {
+    "heroImage": "heroImage",
+    "featuredImage": "featuredImage"
+  },
+  "mediaUrlEnv": ["PUBLIC_PAYLOAD_URL", "R2_PUBLIC_URL", "PAYLOAD_URL"],
+  "notes": "Blog content is synced from Payload on publish (CI). Editorial work belongs in Payload, not in src/content/blog."
 }

@@ -1,23 +1,42 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import { DEFAULT_BLOG_IMAGE, resolveSiteMediaUrl } from '../lib/media';
 
 interface Props {
   title: string;
   description?: string;
+  /** Hero / cover image (heroImage preferred). */
   image?: string;
+  /** Featured image shown below header when different from hero. */
+  featuredImage?: string;
+  ogImage?: string;
   date?: string;
   author?: string;
 }
 
-const { title, description, image, date, author } = Astro.props;
+const { title, description, image, featuredImage, ogImage, date, author } = Astro.props;
+
+const hero = resolveSiteMediaUrl(image, DEFAULT_BLOG_IMAGE);
+const featured = featuredImage
+  ? resolveSiteMediaUrl(featuredImage, DEFAULT_BLOG_IMAGE)
+  : null;
+const showFeatured = Boolean(featured && featured !== hero);
+const og = resolveSiteMediaUrl(ogImage || featured || hero, DEFAULT_BLOG_IMAGE);
 ---
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} image={og}>
   <slot name="header" slot="header" />
   <article class="article-page section">
     <div class="container article-page__inner reveal">
-      {image && (
+      {hero && (
         <div class="article-page__hero">
-          <img src={image} alt={title} width="1140" height="640" loading="eager" />
+          <img
+            src={hero}
+            alt={title}
+            width="1140"
+            height="640"
+            loading="eager"
+            onerror={`this.onerror=null;this.src='${DEFAULT_BLOG_IMAGE}'`}
+          />
         </div>
       )}
       <header class="article-page__header">
@@ -38,6 +57,18 @@ const { title, description, image, date, author } = Astro.props;
           </p>
         )}
       </header>
+      {showFeatured && (
+        <div class="article-page__featured">
+          <img
+            src={featured!}
+            alt={title}
+            width="960"
+            height="540"
+            loading="eager"
+            onerror={`this.onerror=null;this.src='${DEFAULT_BLOG_IMAGE}'`}
+          />
+        </div>
+      )}
       <div class="prose article-page__content">
         <slot />
       </div>
@@ -57,10 +88,17 @@ const { title, description, image, date, author } = Astro.props;
     overflow: hidden;
   }
 
-  .article-page__hero img {
+  .article-page__hero img,
+  .article-page__featured img {
     width: 100%;
     aspect-ratio: 16 / 9;
     object-fit: cover;
+  }
+
+  .article-page__featured {
+    margin: 0 0 2rem;
+    border-radius: var(--card-radius);
+    overflow: hidden;
   }
 
   .article-page__header h1 {

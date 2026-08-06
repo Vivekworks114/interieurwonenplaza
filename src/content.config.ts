@@ -6,18 +6,26 @@ const blog = defineCollection({
     base: './src/content/blog',
     pattern: '**/*.{md,mdx}',
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    author: z.string().optional(),
-    categories: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    featuredImage: z.string().optional(),
-    imageAlt: z.string().optional(),
-    useLiveHtml: z.boolean().optional(),
-  }),
+  // Payload sync may also emit heroImage, image, excerpt, slug, date, etc.
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      author: z.string().optional(),
+      categories: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional(),
+      featuredImage: z.string().optional(),
+      heroImage: z.string().optional(),
+      image: z.string().optional(),
+      imageAlt: z.string().optional(),
+      excerpt: z.string().optional(),
+      slug: z.string().optional(),
+      date: z.coerce.date().optional(),
+      useLiveHtml: z.boolean().optional(),
+    })
+    .passthrough(),
 });
 
 const pages = defineCollection({

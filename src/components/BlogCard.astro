@@ -1,28 +1,32 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { DEFAULT_BLOG_IMAGE, getEntryBlogImages } from '../lib/media';
 
 interface Props {
   entry: CollectionEntry<'blog'>;
 }
 
 const { entry } = Astro.props;
-const { title, description, featuredImage, imageAlt, pubDate, author } = entry.data;
+const { title, description, excerpt, imageAlt, pubDate, author } = entry.data;
+const { featured } = getEntryBlogImages(entry.data);
+const summary = description || excerpt;
 ---
 <article class="blog-card">
   <a href={`/${entry.id}/`} class="blog-card__image-link">
     <img
-      src={featuredImage || '/images/2023/01/hd-wallpaper-g32e4eb954_1280-1024x682.jpg'}
+      src={featured}
       alt={imageAlt || title}
       width="800"
       height="450"
       loading="lazy"
+      onerror={`this.onerror=null;this.src='${DEFAULT_BLOG_IMAGE}'`}
     />
   </a>
   <div class="blog-card__body">
     <h3>
       <a href={`/${entry.id}/`}>{title}</a>
     </h3>
-    {description && <p class="blog-card__excerpt">{description}</p>}
+    {summary && <p class="blog-card__excerpt">{summary}</p>}
     {(author || pubDate) && (
       <p class="blog-card__meta">
         {author && <span>{author}</span>}
